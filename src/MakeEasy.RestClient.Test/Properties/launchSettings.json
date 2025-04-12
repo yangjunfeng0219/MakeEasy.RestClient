@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "MakeEasy.RestClient.Test": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:59250;http://localhost:59251"
+    }
+  }
+}

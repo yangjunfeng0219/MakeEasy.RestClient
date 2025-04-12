@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeEasy.RestClient", "MakeEasy.RestClient\MakeEasy.RestClient.csproj", "{85D35C56-E9ED-461A-BD0D-F3C0CE90E590}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeEasy.RestClient.Test", "MakeEasy.RestClient.Test\MakeEasy.RestClient.Test.csproj", "{B40A3C76-49EB-4910-B194-3F9755C90507}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeEasy.RestClient.WebApiServer", "MakeEasy.RestClient.WebApiServer\MakeEasy.RestClient.WebApiServer.csproj", "{FCB74F98-8180-442F-AF0A-48AAD7DE73AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{85D35C56-E9ED-461A-BD0D-F3C0CE90E590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85D35C56-E9ED-461A-BD0D-F3C0CE90E590}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85D35C56-E9ED-461A-BD0D-F3C0CE90E590}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85D35C56-E9ED-461A-BD0D-F3C0CE90E590}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B40A3C76-49EB-4910-B194-3F9755C90507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B40A3C76-49EB-4910-B194-3F9755C90507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B40A3C76-49EB-4910-B194-3F9755C90507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B40A3C76-49EB-4910-B194-3F9755C90507}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCB74F98-8180-442F-AF0A-48AAD7DE73AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCB74F98-8180-442F-AF0A-48AAD7DE73AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCB74F98-8180-442F-AF0A-48AAD7DE73AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCB74F98-8180-442F-AF0A-48AAD7DE73AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <Version>0.11.1</Version>
+	  <PackageReleaseNotes>first publish, replace the EasyRestSharp</PackageReleaseNotes>
+	  <TargetFrameworks>net5.0;net452</TargetFrameworks>
+	<LangVersion>13</LangVersion>
+	  <Nullable>enable</Nullable>
+	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	  <Title>MakeEasy.RestClient - RESTful or Rest Web API client library</Title>
+	  <Authors>Yang Junfeng</Authors>
+	  <Description>
+	  <![CDATA[
+		  An easy-to-use RESTful or Rest Web API client library based on HttpClient.
+		  For example:
+		  using var client = new RestClient("https://api.example.com");
+		  var response = await client.PostAsync("/Person/Insert", new { name = "John", age = 30 });
+		  var person = await client.GetAsync<Person>("/Person/FindByName", new { name = "John" });
+	  ]]>
+		  </Description>
+	  <PackageProjectUrl>https://github.com/yangjunfeng0219/MakeEasy.RestClient</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/yangjunfeng0219/MakeEasy.RestClient</RepositoryUrl>
+	  <PackageId>MakeEasy.RestClient</PackageId>
+	  <Copyright>Copyright © Yang Junfeng 2025-2025</Copyright>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net5.0|AnyCPU'">
+    <WarningLevel>8</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net5.0|AnyCPU'">
+    <WarningLevel>8</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net452|AnyCPU'">
+    <WarningLevel>8</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net452|AnyCPU'">
+    <WarningLevel>8</WarningLevel>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
+	  <Reference Include="System.Web" />
+	  <Reference Include="System.Net.Http" />
+	  <PackageReference Include="PolySharp" Version="1.15.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' != 'net452' ">
+		<PackageReference Include="PolySharp" Version="1.15.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+</Project>
