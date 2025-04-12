@@ -22,6 +22,21 @@ public class PersonController : ControllerBase
     }
 
     [HttpGet]
+    public Person? FindByNameAndAge(string name, int age)
+    {
+        if (name == "Mary" && age == 25) {
+            return new Person(name, 25);
+        }
+        else if (name == "John" && age == 35) {
+            return new Person(name, 35);
+        }
+        else if (name == "Jane" && age == 28) {
+            return new Person(name, 28);
+        }
+        return null;
+    }
+
+    [HttpGet]
     public IEnumerable<Person> FindAll()
     {
         return new List<Person> {

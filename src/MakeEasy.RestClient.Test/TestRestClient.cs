@@ -8,6 +8,7 @@ using System.Runtime.Loader;
 [TestClass]
 public sealed class TestRestClient
 {
+    private static readonly string url = "http://localhost:12321";
     //private Server? server;
 
     //[TestInitialize]
@@ -35,7 +36,7 @@ public sealed class TestRestClient
             Assert.IsNotNull(ex.InnerException);
         }
 
-        using var client = new RestClient($"http://localhost:12321");
+        using var client = new RestClient(url);
         var response = await client.GetAsync("/xx", new { name = "Mary" }).ConfigureAwait(false);
         Assert.AreEqual((int)response.StatusCode, 404);
 
@@ -56,7 +57,7 @@ public sealed class TestRestClient
     [TestMethod]
     public async Task TestGetGeneric()
     {
-        using var client = new RestClient($"http://localhost:12321");
+        using var client = new RestClient(url);
         var person = await client.GetAsync<Person>("/Person/FindByName", new { name = "Mary" }).ConfigureAwait(false);
         Assert.AreEqual(person?.Name, "Mary");
 
@@ -69,7 +70,7 @@ public sealed class TestRestClient
     [TestMethod]
     public void TestPost()
     {
-        var client = new RestClient("http://localhost:12321");
+        var client = new RestClient(url);
         var response = client.PostAsync("/Person/Create", new { name = "Mary", age = 25 }).Result;
         Assert.IsNotNull(response);
     }

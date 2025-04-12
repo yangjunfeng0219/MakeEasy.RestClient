@@ -56,10 +56,12 @@ public static class RestUtils
         // automatically create parameters from object props
         if (obj is IDictionary dict) {
             foreach (var key in dict.Keys) {
-                if (key == null) continue;
                 var keyStr = key?.ToString();
-                if (keyStr == null) throw new Exception("Key is not permit to be null");
-                yield return new NameValue(keyStr, dict[key!]?.ToString());
+                if (keyStr == null) continue;
+
+                var val = dict[key!];
+                if (val == null) continue;
+                yield return new NameValue(keyStr, GetValueString(val));
             }
             yield break;
         }
@@ -67,18 +69,24 @@ public static class RestUtils
             foreach (var prop in obj.GetType().GetProperties()) {
                 var val = prop.GetValue(obj, null);
                 if (val == null) continue;
-
-                string strValue;
-                if (prop.PropertyType.IsArray) {
-                    var values = ((Array)val).Cast<object>().Select(item => item.ToString());
-                    strValue = string.Join(",", values);
-                }
-                else {
-                    strValue = val.ToString()!;
-                }
-                yield return new NameValue(prop.Name, val.ToString());
+                yield return new NameValue(prop.Name, GetValueString(val));
             }
         }
+    }
+
+    private static string GetValueString(object value)
+    {
+        if (value is string str) return str;
+
+        if (value is Array arr) {
+            var sb = new StringBuilder();
+            foreach (var item in arr) {
+                if (sb.Length > 0) sb.Append(",");
+                sb.Append(item.ToString());
+            }
+            return sb.ToString();
+        }
+        return value.ToString()!;
     }
 
     public struct NameValue

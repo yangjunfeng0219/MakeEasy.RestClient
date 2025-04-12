@@ -16,6 +16,7 @@ public class RestClient : IDisposable
     private readonly HttpClient client;
 
     public string? BaseUrl => baseUrl;
+    public HttpClient HttpClient => client;
     public IRequestBodySerializer RequestBodySerializer { get; set; } = new JsonRequestBodySerializer();
     public IResponseContentDeserializer ResponseContentDeserializer { get; set; } = new JsonResponseContentDeserializer();
 
@@ -162,6 +163,9 @@ public class RestClient : IDisposable
     {
         if (!response.IsSuccessStatusCode) {
             throw new Exception($"Status code: {response.StatusCode} Description:{response.ReasonPhrase}");
+        }
+        if (response.StatusCode == HttpStatusCode.NoContent) {
+            return default;
         }
         var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
         var deserializer = options?.ResponseContentDeserializer ?? ResponseContentDeserializer;
