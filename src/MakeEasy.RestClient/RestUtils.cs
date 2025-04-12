@@ -51,48 +51,35 @@ public static class RestUtils
         return url;
     }
 
-    public static IEnumerable<NameValue> GetNameValues(object obj, params string[] includedProperties)
+    public static IEnumerable<NameValue> GetNameValues(object obj)
     {
         // automatically create parameters from object props
         if (obj is IDictionary dict) {
             foreach (var key in dict.Keys) {
                 if (key == null) continue;
-                var keyStr = key.ToString();
+                var keyStr = key?.ToString();
                 if (keyStr == null) throw new Exception("Key is not permit to be null");
-                yield return new NameValue(keyStr, dict[key]?.ToString());
+                yield return new NameValue(keyStr, dict[key!]?.ToString());
             }
             yield break;
         }
         else {
-            var type = obj.GetType();
-            var props = type.GetProperties();
-
-            foreach (var prop in props) {
-                if (!IsAllowedProperty(prop.Name, includedProperties)) continue;
-
+            foreach (var prop in obj.GetType().GetProperties()) {
                 var val = prop.GetValue(obj, null);
                 if (val == null) continue;
 
-                var propType = prop.PropertyType;
-                if (propType.IsArray) {
-                    var elementType = propType.GetElementType();
-                    var array = (Array)val;
-
-                    if (array.Length > 0 && elementType != null) {
-                        // convert the array to an array of strings
-                        var values = array.Cast<object>().Select(item => item.ToString());
-                        yield return new NameValue(prop.Name, string.Join(",", values));
-
-                        continue;
-                    }
+                string strValue;
+                if (prop.PropertyType.IsArray) {
+                    var values = ((Array)val).Cast<object>().Select(item => item.ToString());
+                    strValue = string.Join(",", values);
+                }
+                else {
+                    strValue = val.ToString()!;
                 }
                 yield return new NameValue(prop.Name, val.ToString());
             }
         }
     }
-
-    private static bool IsAllowedProperty(string propertyName, params string[] includedProperties)
-        => includedProperties.Length == 0 || includedProperties.Length > 0 && includedProperties.Contains(propertyName);
 
     public struct NameValue
     {
