@@ -59,7 +59,8 @@ public sealed class TestRestClient
     {
         using var client = new RestClient(url);
         var person = await client.GetAsync<Person>("/Person/FindByName", new { name = "Mary" }).ConfigureAwait(false);
-        Assert.AreEqual(person?.Name, "Mary");
+        Assert.IsNotNull(person);
+        Assert.AreEqual(person.Name, "Mary");
 
         var personList = await client.GetAsync<List<Person>>("/Person/FindAll").ConfigureAwait(false);
         Assert.IsNotNull(personList);

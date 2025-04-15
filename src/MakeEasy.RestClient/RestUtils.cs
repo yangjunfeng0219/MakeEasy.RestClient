@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -21,22 +22,33 @@ public static class RestUtils
         return encoded.Replace("+", "%20");
     }
 
+    public static string BuildQueryUrl(string name, string? value)
+    {
+        if (string.IsNullOrEmpty(name)) return string.Empty;
+        var nameStr = EncodeUrl(name);
+        var valueStr = value != null ? EncodeUrl(value) : value;
+        return valueStr == null ? nameStr : $"{nameStr}={valueStr}";
+    }
+
+    public static string BuildQueryUrl(string url, string name, string? value)
+    {
+        var query = BuildQueryUrl(name, value);
+        return url.IndexOf('?') > 0 ? $"{url}&{query}" : $"{url}?{query}";
+    }
+
     public static string BuildQueryUrl(object? queryParameters)
     {
         if (queryParameters == null) return string.Empty;
         var nvList = GetNameValues(queryParameters)
-            .Select(e => {
-                var name = e.Name != null ? EncodeUrl(e.Name) : e.Name;
-                var val = e.Value != null ? EncodeUrl(e.Value) : e.Value;
-                return val == null ? name : $"{name}={val}";
-            });
+            .Select(e => BuildQueryUrl(e.Name, e.Value));
         return string.Join("&", nvList);
     }
 
     public static string BuildQueryUrl(string url, object? queryParameters)
     {
         if (queryParameters == null) return url;
-        return $"{url}?{BuildQueryUrl(queryParameters)}";
+        var query = BuildQueryUrl(queryParameters);
+        return url.IndexOf('?') > 0 ? $"{url}&{query}" : $"{url}?{query}";
     }
 
     public static string BuildSegmentUrl(string url, object? segmentParameters)

@@ -1,4 +1,4 @@
-﻿namespace MakeEasy.RestClient;
+﻿namespace MakeEasy.RestClient.Serializers;
 
 using System;
 using System.Collections.Generic;

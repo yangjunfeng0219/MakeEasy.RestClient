@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <Version>0.11.2</Version>
-	  <PackageReleaseNotes>return default if StatusCode is 204</PackageReleaseNotes>
+	  <Version>0.11.3</Version>
+	  <PackageReleaseNotes>Add authenticators</PackageReleaseNotes>
 	  <TargetFrameworks>net5.0;net452</TargetFrameworks>
 	<LangVersion>13</LangVersion>
 	  <Nullable>enable</Nullable>

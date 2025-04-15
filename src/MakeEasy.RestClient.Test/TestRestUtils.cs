@@ -18,6 +18,12 @@ public sealed class TestRestUtils
 
         absoluteUrl = RestUtils.BuildQueryUrl($"/Person/Find", new { Name = new string[] { "Mary", "Jone" }, Age = 25 });
         Assert.AreEqual(RestUtils.DecodeUrl(absoluteUrl), "/Person/Find?Name=Mary,Jone&Age=25");
+
+        absoluteUrl = RestUtils.BuildQueryUrl($"/Person/Find", "Name", "Mary");
+        Assert.AreEqual(RestUtils.DecodeUrl(absoluteUrl), "/Person/Find?Name=Mary");
+
+        absoluteUrl = RestUtils.BuildQueryUrl($"/Person/Find?Name=Mary", "Age", "25");
+        Assert.AreEqual(RestUtils.DecodeUrl(absoluteUrl), "/Person/Find?Name=Mary&Age=25");
     }
 
     [TestMethod]
