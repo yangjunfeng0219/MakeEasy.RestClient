@@ -13,9 +13,7 @@
   ```
   In none-generic version, it will throw an exception if there's an error in network/framework. You need to check the response status code and content by yourself. For example:
   ```csharp
-  if (!response.IsSuccessStatusCode) {
-     throw new Exception($"Status code: {response.StatusCode} Description:{response.ReasonPhrase}");
-  }
+  response.EnsureSuccessStatusCode();
   var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
   ```
   + if you want to pass query parameters, you can use Options to generate the url.

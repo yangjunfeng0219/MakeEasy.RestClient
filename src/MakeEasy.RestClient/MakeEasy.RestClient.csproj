@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <Version>0.11.3</Version>
-	  <PackageReleaseNotes>Add authenticators</PackageReleaseNotes>
+	  <Version>0.11.4</Version>
+	  <PackageReleaseNotes>Add HttpMessageHandler at RestClient creator</PackageReleaseNotes>
 	  <TargetFrameworks>net5.0;net452</TargetFrameworks>
 	<LangVersion>13</LangVersion>
 	  <Nullable>enable</Nullable>
