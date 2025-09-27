@@ -9,20 +9,22 @@ using System.Runtime.Loader;
 public sealed class TestRestClient
 {
     private static readonly string url = "http://localhost:12321";
-    //private Server? server;
+    private static Server? server;
 
-    //[TestInitialize]
-    //public void Init()
-    //{
-    //    server = new Server();
-    //    server.StartAsync().Wait();
-    //}
+    [ClassInitialize]
+    public static void Init(TestContext testContext)
+    {
+        server = new Server();
+        server.StartAsync();
+        Thread.Sleep(3000);
+    }
 
-    //[TestCleanup]
-    //public void Cleanup()
-    //{
-    //    server?.StopAsync().Wait();
-    //}
+    [ClassCleanup]
+    public static void Cleanup()
+    {
+        server?.StopAsync().Wait();
+        server = null;
+    }
 
     [TestMethod]
     public async Task TestGetNonGeneric()

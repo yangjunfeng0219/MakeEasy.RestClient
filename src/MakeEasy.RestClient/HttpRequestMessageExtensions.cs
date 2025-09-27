@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using static MakeEasy.RestClient.RestUtils;
 
 public static class HttpRequestMessageExtensions
 {
@@ -14,7 +13,7 @@ public static class HttpRequestMessageExtensions
     {
         if (headers == null) return;
 
-        var props = GetNameValues(headers);
+        var props = RestUtils.GetNameValues(headers);
         foreach (var nameValue in props) {
             request.AddOrUpdateHeader(nameValue.Name, nameValue.Value);
         }

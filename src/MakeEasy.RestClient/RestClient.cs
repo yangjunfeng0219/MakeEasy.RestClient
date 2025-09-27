@@ -23,10 +23,11 @@ public class RestClient : IDisposable
     public IResponseContentDeserializer ResponseContentDeserializer { get; set; } = new JsonResponseContentDeserializer();
     public IAuthenticator? Authenticator { get; set; } = null;
 
-    public RestClient(string baseUrl)
+    public RestClient(string? baseUrl, HttpMessageHandler? handler)
     {
         this.baseUrl = baseUrl;
-        client = new HttpClient();
+        if (handler == null) handler = new HttpClientHandler();
+        client = new HttpClient(handler);
     }
 
     public RestClient()
@@ -37,129 +38,129 @@ public class RestClient : IDisposable
 
     // GET
     public Task<HttpResponseMessage> GetAsync(string url, SendOptions? options = null)
-        => SendContentAsync(HttpMethod.Get, url, null, options);
+        => SendAsync(HttpMethod.Get, url, null, options);
 
     public Task<T?> GetAsync<T>(string url, SendOptions? options = null)
-        => SendContentAsync<T>(HttpMethod.Get, url, null, options);
+        => SendAsync<T>(HttpMethod.Get, url, null, options);
 
     public Task<HttpResponseMessage> GetAsync(string url, object? queryParams, SendOptions? options = null)
     {
         if (queryParams != null) url = RestUtils.BuildQueryUrl(url, queryParams);
-        return SendContentAsync(HttpMethod.Get, url, null, options);
+        return SendAsync(HttpMethod.Get, url, null, options);
     }
 
     public Task<T?> GetAsync<T>(string url, object? queryParams, SendOptions? options = null)
     {
         if (queryParams != null) url = RestUtils.BuildQueryUrl(url, queryParams);
-        return SendContentAsync<T>(HttpMethod.Get, url, null, options);
+        return SendAsync<T>(HttpMethod.Get, url, null, options);
     }
 
     // DELETE
     public Task<HttpResponseMessage> DeleteAsync(string url, SendOptions? options = null)
-        => SendContentAsync(HttpMethod.Delete, url, null, options);
+        => SendAsync(HttpMethod.Delete, url, null, options);
 
     public Task<T?> DeleteAsync<T>(string url, SendOptions? options = null)
-        => SendContentAsync<T>(HttpMethod.Delete, url, null, options);
+        => SendAsync<T>(HttpMethod.Delete, url, null, options);
 
     public Task<HttpResponseMessage> DeleteAsync(string url, object? queryParams, SendOptions? options = null)
     {
         if (queryParams != null) url = RestUtils.BuildQueryUrl(url, queryParams);
-        return SendContentAsync(HttpMethod.Delete, url, null, options);
+        return SendAsync(HttpMethod.Delete, url, null, options);
     }
 
     public Task<T?> DeleteAsync<T>(string url, object? queryParams, SendOptions? options = null)
     {
         if (queryParams != null) url = RestUtils.BuildQueryUrl(url, queryParams);
-        return SendContentAsync<T>(HttpMethod.Delete, url, null, options);
+        return SendAsync<T>(HttpMethod.Delete, url, null, options);
     }
 
     // HEAD
     public Task<HttpResponseMessage> HeadAsync(string url, SendOptions? options = null)
-        => SendContentAsync(HttpMethod.Head, url, null, options);
+        => SendAsync(HttpMethod.Head, url, null, options);
 
     public Task<T?> HeadAsync<T>(string url, SendOptions? options = null)
-        => SendContentAsync<T>(HttpMethod.Head, url, null, options);
+        => SendAsync<T>(HttpMethod.Head, url, null, options);
 
     public Task<HttpResponseMessage> HeadAsync(string url, object? queryParams, SendOptions? options = null)
     {
         if (queryParams != null) url = RestUtils.BuildQueryUrl(url, queryParams);
-        return SendContentAsync(HttpMethod.Head, url, null, options);
+        return SendAsync(HttpMethod.Head, url, null, options);
     }
 
     public Task<T?> HeadAsync<T>(string url, object? queryParams, SendOptions? options = null)
     {
         if (queryParams != null) url = RestUtils.BuildQueryUrl(url, queryParams);
-        return SendContentAsync<T>(HttpMethod.Head, url, null, options);
+        return SendAsync<T>(HttpMethod.Head, url, null, options);
     }
 
     // OPTIONS
     public Task<HttpResponseMessage> OptionsAsync(string url, SendOptions? options = null)
-        => SendContentAsync(HttpMethod.Options, url, null, options);
+        => SendAsync(HttpMethod.Options, url, null, options);
 
     public Task<T?> OptionsAsync<T>(string url, SendOptions? options = null)
-        => SendContentAsync<T>(HttpMethod.Options, url, null, options);
+        => SendAsync<T>(HttpMethod.Options, url, null, options);
 
     public Task<HttpResponseMessage> OptionsAsync(string url, object? queryParams, SendOptions? options = null)
     {
         if (queryParams != null) url = RestUtils.BuildQueryUrl(url, queryParams);
-        return SendContentAsync(HttpMethod.Options, url, null, options);
+        return SendAsync(HttpMethod.Options, url, null, options);
     }
 
     public Task<T?> OptionsAsync<T>(string url, object? queryParams, SendOptions? options = null)
     {
         if (queryParams != null) url = RestUtils.BuildQueryUrl(url, queryParams);
-        return SendContentAsync<T>(HttpMethod.Options, url, null, options);
+        return SendAsync<T>(HttpMethod.Options, url, null, options);
     }
 
     // POST
     public Task<HttpResponseMessage> PostAsync(string url, object? body, SendOptions? options = null)
     {
         var serializer = options?.RequestBodySerializer ?? RequestBodySerializer;
-        return SendContentAsync(HttpMethod.Post, url, serializer.Serialize(body), options);
+        return SendAsync(HttpMethod.Post, url, serializer.Serialize(body), options);
     }
 
     public Task<T?> PostAsync<T>(string url, object? body, SendOptions? options = null)
     {
         var serializer = options?.RequestBodySerializer ?? RequestBodySerializer;
-        return SendContentAsync<T>(HttpMethod.Post, url, serializer.Serialize(body), options);
+        return SendAsync<T>(HttpMethod.Post, url, serializer.Serialize(body), options);
     }
 
     public Task<HttpResponseMessage> PostMultipartAsync(string url, MultipartFormDataContent body, SendOptions? options = null)
-        => SendContentAsync(HttpMethod.Post, url, body, options);
+        => SendAsync(HttpMethod.Post, url, body, options);
 
     public Task<T?> PostMultipartAsync<T>(string url, MultipartFormDataContent body, SendOptions? options = null)
-        => SendContentAsync<T>(HttpMethod.Post, url, body, options);
+        => SendAsync<T>(HttpMethod.Post, url, body, options);
 
     public Task<HttpResponseMessage> PostStringAsync(string url, string body, string contentType = RestContentTypes.PlainText, SendOptions? options = null)
-        => SendContentAsync(HttpMethod.Post, url, new StringContent(body, null, contentType), options);
+        => SendAsync(HttpMethod.Post, url, new StringContent(body, null, contentType), options);
 
     public Task<T?> PostStringAsync<T>(string url, string body, string contentType = RestContentTypes.PlainText, SendOptions? options = null)
-        => SendContentAsync<T>(HttpMethod.Post, url, new StringContent(body, null, contentType), options);
+        => SendAsync<T>(HttpMethod.Post, url, new StringContent(body, null, contentType), options);
 
     // PUT
     public Task<HttpResponseMessage> PutAsync(string url, object? body, SendOptions? options = null)
     {
         var serializer = options?.RequestBodySerializer ?? RequestBodySerializer;
-        return SendContentAsync(HttpMethod.Put, url, serializer.Serialize(body), options);
+        return SendAsync(HttpMethod.Put, url, serializer.Serialize(body), options);
     }
 
     public Task<T?> PutAsync<T>(string url, object? body, SendOptions? options = null)
     {
         var serializer = options?.RequestBodySerializer ?? RequestBodySerializer;
-        return SendContentAsync<T>(HttpMethod.Put, url, serializer.Serialize(body), options);
+        return SendAsync<T>(HttpMethod.Put, url, serializer.Serialize(body), options);
     }
 
     public Task<HttpResponseMessage> PutMultipartAsync(string url, MultipartFormDataContent body, SendOptions? options = null)
-        => SendContentAsync(HttpMethod.Put, url, body, options);
+        => SendAsync(HttpMethod.Put, url, body, options);
 
     public Task<T?> PutMultipartAsync<T>(string url, MultipartFormDataContent body, SendOptions? options = null)
-        => SendContentAsync<T>(HttpMethod.Put, url, body, options);
+        => SendAsync<T>(HttpMethod.Put, url, body, options);
 
     public Task<HttpResponseMessage> PutStringAsync(string url, string body, string contentType = RestContentTypes.PlainText, SendOptions? options = null)
-        => SendContentAsync(HttpMethod.Put, url, new StringContent(body, null, contentType), options);
+        => SendAsync(HttpMethod.Put, url, new StringContent(body, null, contentType), options);
 
     public Task<T?> PutStringAsync<T>(string url, string body, string contentType = RestContentTypes.PlainText, SendOptions? options = null)
-        => SendContentAsync<T>(HttpMethod.Put, url, new StringContent(body, null, contentType), options);
+        => SendAsync<T>(HttpMethod.Put, url, new StringContent(body, null, contentType), options);
  
     // PATCH
 #if NET5_0_OR_GREATER
@@ -170,34 +171,32 @@ public class RestClient : IDisposable
     public Task<HttpResponseMessage> PatchAsync(string url, object? body, SendOptions? options = null)
     {
         var serializer = options?.RequestBodySerializer ?? RequestBodySerializer;
-        return SendContentAsync(PatchMethod, url, serializer.Serialize(body), options);
+        return SendAsync(PatchMethod, url, serializer.Serialize(body), options);
     }
 
     public Task<T?> PatchAsync<T>(string url, object? body, SendOptions? options = null)
     {
         var serializer = options?.RequestBodySerializer ?? RequestBodySerializer;
-        return SendContentAsync<T>(PatchMethod, url, serializer.Serialize(body), options);
+        return SendAsync<T>(PatchMethod, url, serializer.Serialize(body), options);
     }
 
     public Task<HttpResponseMessage> PatchMultipartAsync(string url, MultipartFormDataContent body, SendOptions? options = null)
-        => SendContentAsync(PatchMethod, url, body, options);
+        => SendAsync(PatchMethod, url, body, options);
 
     public Task<T?> PatchMultipartAsync<T>(string url, MultipartFormDataContent body, SendOptions? options = null)
-        => SendContentAsync<T>(PatchMethod, url, body, options);
+        => SendAsync<T>(PatchMethod, url, body, options);
 
     public Task<HttpResponseMessage> PatchStringAsync(string url, string body, string contentType = RestContentTypes.PlainText, SendOptions? options = null)
-        => SendContentAsync(PatchMethod, url, new StringContent(body, null, contentType), options);
+        => SendAsync(PatchMethod, url, new StringContent(body, null, contentType), options);
 
     public Task<T?> PatchStringAsync<T>(string url, string body, string contentType = RestContentTypes.PlainText, SendOptions? options = null)
-        => SendContentAsync<T>(PatchMethod, url, new StringContent(body, null, contentType), options);
+        => SendAsync<T>(PatchMethod, url, new StringContent(body, null, contentType), options);
     
     /******* private methods **********/
 
     private async Task<T?> FromResponse<T>(HttpResponseMessage response, SendOptions? options)
     {
-        if (!response.IsSuccessStatusCode) {
-            throw new Exception($"Status code: {response.StatusCode} Description:{response.ReasonPhrase}");
-        }
+        response.EnsureSuccessStatusCode();
         if (response.StatusCode == HttpStatusCode.NoContent) {
             return default;
         }
@@ -219,7 +218,7 @@ public class RestClient : IDisposable
         return absoluteUrl;
     }
 
-    private Task<HttpResponseMessage> SendContentAsync(HttpMethod method, string url, HttpContent? content, SendOptions? options = null)
+    private Task<HttpResponseMessage> SendAsync(HttpMethod method, string url, HttpContent? content, SendOptions? options = null)
     {
         var absoluteUrl = BuildUrl(url, options);
         var request = new HttpRequestMessage(method, absoluteUrl);
@@ -234,9 +233,9 @@ public class RestClient : IDisposable
             options?.CancellationToken ?? CancellationToken.None);
     }
 
-    private async Task<T?> SendContentAsync<T>(HttpMethod method, string url, HttpContent? content, SendOptions? options = null)
+    private async Task<T?> SendAsync<T>(HttpMethod method, string url, HttpContent? content, SendOptions? options = null)
     {
-        var response = await SendContentAsync(method, url, content, options).ConfigureAwait(false);
+        var response = await SendAsync(method, url, content, options).ConfigureAwait(false);
         return await FromResponse<T>(response, options).ConfigureAwait(false);
     }
 

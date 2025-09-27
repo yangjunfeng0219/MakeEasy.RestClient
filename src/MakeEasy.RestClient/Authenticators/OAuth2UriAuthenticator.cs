@@ -22,6 +22,7 @@ public class OAuth2UriAuthenticator : IAuthenticator
     {
         var uri = request.RequestUri;
         if (uri == null) throw new ArgumentNullException(nameof(request.RequestUri));
+
         var newUrl = RestUtils.BuildQueryUrl(request.RequestUri!.ToString(), Scheme, Token);
         request.RequestUri = new Uri(newUrl);
         return Task.FromResult(0);
