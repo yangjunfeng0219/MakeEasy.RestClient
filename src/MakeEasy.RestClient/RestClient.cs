@@ -23,7 +23,7 @@ public class RestClient : IDisposable
     public IResponseContentDeserializer ResponseContentDeserializer { get; set; } = new JsonResponseContentDeserializer();
     public IAuthenticator? Authenticator { get; set; } = null;
 
-    public RestClient(string? baseUrl, HttpMessageHandler? handler)
+    public RestClient(string? baseUrl, HttpMessageHandler? handler = null)
     {
         this.baseUrl = baseUrl;
         if (handler == null) handler = new HttpClientHandler();
